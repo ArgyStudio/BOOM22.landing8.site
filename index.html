@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>💥BOOM22💥 – Crea tu usuario</title>
+  <link rel="icon" type="videos" sizes="32x32" href="images/logo-1.png">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+
+
+  <style>
+    body {
+      visibility: hidden;
+      margin: 0;
+    }
+    #preloader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+
+    @keyframes scrollCarousel {
+      from { transform: translateX(0); }
+      to   { transform: translateX(var(--scroll-end)); }
+    }
+
+  </style>
+
+
+  <link rel="stylesheet" href="styles.css" />
+
+
+  <script>
+    const PIXEL_ID = '729921263257681';
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq) return; n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+      n.queue=[]; t=b.createElement(e); t.async=!0;
+      t.src=v; s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s);
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js'
+    );
+    fbq('init', PIXEL_ID);
+    fbq('track', 'ViewContent');
+
+    fbq('set', 'autoConfig', false, PIXEL_ID);
+
+  </script>
+</head>
+<body>
+
+  <div id="preloader">
+    <lottie-player
+      src="videos/slot-machine.json"
+      background="transparent"
+      speed="1"
+      style="width:150px; height:150px;"
+      autoplay
+      loop
+    ></lottie-player>
+  </div>
+
+
+ <a href="#" id="themeToggle" class="btn-shine">ArgyStudios</a>
+
+
+
+
+
+
+  <div class="screen">
+    <div class="card">
+<!-- sólo la clase logoVideo -->
+<div class="logoVideo">
+  <video
+    src="images/logo.mp4"
+    autoplay loop muted playsinline
+    poster="images/logo-poster.jpg"
+  >
+    Tu navegador no soporta la etiqueta video.
+  </video>
+</div>
+           <h1 class="title">BOOM22</h1> 
+      <p class="subtitle">
+        <img
+  src="images/usuario.webp"
+  alt="🔥"
+  class="fire"
+/>  
+        ¡SEXTUPLICA TU CARGA!
+        <img
+  src="images/usuario.webp"
+  alt="🔥"
+  class="fire"
+/>
+      </p>
+<p class="highlight">
+  TE DAMOS 500% EXTRA<br>
+  EN TU PRIMER CARGA
+</p>
+
+<div class="examples-container">
+  <span id="example-text" class="examples-text"></span>
+</div>
+
+     <div class="input-group">
+  <input
+    type="text"
+    id="username"
+    placeholder="ESCRIBÍ TU NOMBRE"
+    autocomplete="off"
+  />
+</div>
+
+      <a href="#" id="ctaButton" class="btn">
+        ¡CREA TU USUARIO!
+         <img src="images/whatsapp-icon.svg" alt="WhatsApp icon" class="icon" />
+      </a>
+    </div>
+
+
+     <section class="carousel-section">
+    <h2>TOP JUGADOS</h2>
+    <div class="carousel">
+      <ul class="carousel-track" id="track"></ul>
+    </div>
+  </section>
+
+
+    <section class="testimonials-section">
+      <h2>COMENTARIOS</h2>
+      <div class="testimonials-carousel" id="testimonialsCarousel">
+
+      </div>
+    </section>
+  </div>
+ 
+
+
+
+
+
+
+
+  <script>
+    function parseCookies() {
+      return document.cookie.split('; ').reduce((acc, kv) => {
+        const [k, ...vals] = kv.split('=');
+        acc[k] = vals.join('=');
+        return acc;
+      }, {});
+    }
+    function waitForCookie(name, timeout = 3000) {
+      return new Promise(res => {
+        const start = Date.now();
+        (function check() {
+          if (
+            document.cookie.split('; ').some(c => c.startsWith(name + '=')) ||
+            Date.now() - start > timeout
+          ) return res();
+          requestAnimationFrame(check);
+        })();
+      });
+    }
+
+
+function getVisitorId() {
+  return FingerprintJS.load()
+    .then(fp => fp.get())
+    .then(result => result.visitorId)
+    .catch(err => {
+      console.warn('No se pudo obtener visitorId:', err);
+      return null;
+    });
+}
+
+  const VERIFY_API = 'https://qm8se4sao4.execute-api.us-east-2.amazonaws.com/prod/ID-Visit';
+
+  async function getVisitorId() {
+    return FingerprintJS.load()
+      .then(fp => fp.get())
+      .then(res => res.visitorId)
+      .catch(() => null);
+  }
+
+  async function verifyVisitor(visitorId) {
+    const landingUrl = window.location.href;
+    const resp = await fetch(VERIFY_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ visitorId, landingUrl })
+    });
+    if (!resp.ok) throw new Error(`Verify error: ${resp.status}`);
+    return resp.json(); 
+  }
+
+
+window.addEventListener('load', async () => {
+
+  document.getElementById('ctaButton').addEventListener('click', async e => {
+  e.preventDefault();
+  const name = document.getElementById('username').value.trim();
+  if (!name) {
+    const inp = document.getElementById('username');
+    inp.classList.add('shake');
+    return setTimeout(() => inp.classList.remove('shake'), 500);
+  }
+
+
+  document.body.querySelectorAll('body > *').forEach(el => {
+    if (el.id !== 'preloader') el.style.display = 'none';
+  });
+
+
+  await Promise.all([waitForCookie('_fbc'), waitForCookie('_fbp')]);
+  const { _fbc: fbc = null, _fbp: fbp = null } = parseCookies();
+
+
+  const resp = await fetch(
+    'https://t6cq896p7i.execute-api.us-east-2.amazonaws.com/prod/active-line',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subdomain: 'saladorada', fbc, fbp })
+    }
+  );
+  if (!resp.ok) throw new Error(`LineManager error: ${resp.status}`);
+  const { whatsapp_number: number, uuid } = await resp.json();
+
+
+const visitorId = await getVisitorId();
+const { allowTracking } = await verifyVisitor(visitorId);
+
+if (allowTracking) {
+  const SECONDARY_API = 'https://7ab0c5s4h7.execute-api.us-east-2.amazonaws.com/prod/F1-SALADORADA-new';
+  const EventPayload = {
+    uuid,
+    name,
+    timestamp: new Date().toISOString(),
+    subdomain: 'saladorada'
+  };
+  fetch(SECONDARY_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(EventPayload)
+  }).catch(console.error);
+}
+
+
+    const msg = `Hola, vengo por el bono de bienvenida! Mi código promocional es: ${uuid}
+    Este es mi nombre para el usuario: ${name}`;
+
+    window.location.href = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+  });
+
+
+
+      const tog = document.getElementById('themeToggle');
+      tog.addEventListener('click', () => {
+        document.documentElement.classList.toggle('light');
+        tog.textContent = document.documentElement.classList.contains('light') ? '🌞' : '🌙';
+      });
+
+
+      const pre = document.getElementById('preloader');
+      pre.style.transition = 'opacity 0.5s ease';
+      pre.style.opacity = '0';
+      setTimeout(() => pre.remove(), 500);
+      document.body.style.visibility = 'visible';
+    });
+  </script>
+
+
+  <script>
+window.addEventListener('load', () => {
+  const track      = document.getElementById('track');
+  const imagePaths = [
+    'images/slide 1.webp',  'images/slide 2.webp',
+    'images/slide 3.webp',  'images/slide 4.webp',
+    'images/slide 5.webp',  'images/slide 6.webp',
+    'images/slide 7.webp',  'images/slide 8.webp',
+    'images/slide 9.webp',  'images/slide 10.webp',
+    'images/slide 11.webp', 'images/slide 12.webp',
+    'images/slide 13.webp', 'images/slide 14.webp',
+    'images/slide 15.webp', 'images/slide 16.webp'
+  ];
+
+  // 1) Generar slides originales
+  imagePaths.forEach(src => {
+    const li  = document.createElement('li');
+    li.className = 'carousel-item';
+    const img = document.createElement('img');
+    img.src     = src;
+    img.loading = 'lazy';
+    li.appendChild(img);
+    track.appendChild(li);
+  });
+
+  // 2) Medir ancho de N originales (cada flex=20%)
+  const originalCount = imagePaths.length;
+  const firstRect     = track.children[0].getBoundingClientRect();
+  const lastRect      = track.children[originalCount - 1].getBoundingClientRect();
+  const originalWidth = lastRect.right - firstRect.left;
+
+  // 3) Clonar todas las originales
+  for (let i = 0; i < originalCount; i++) {
+    const clone = track.children[i].cloneNode(true);
+    track.appendChild(clone);
+  }
+
+  // 4) Definir duración en función de #slides
+  //    Por ejemplo: 2s por slide → total = originalCount*2
+  const SECONDS_PER_SLIDE = 2;
+  const duration = originalCount * SECONDS_PER_SLIDE;
+
+  // 5) Inyectar CSS vars y arrancar animación
+  track.style.setProperty('--scroll-end', `-${originalWidth}px`);
+  track.style.setProperty('--duration', `${duration}s`);
+  track.style.animation = `scrollCarousel var(--duration) linear infinite`;
+});
+  </script>
+  <script src="testimonials-carousel.js" defer></script>
+  <script src="ejemplos.js" defer></script>
+</body>
+</html>
